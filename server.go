@@ -3,7 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	m "github.com/jijeshmohan/goseed/middleware"
 	"github.com/jijeshmohan/goseed/routes"
@@ -21,7 +23,8 @@ func NewHttpServer(uiDir string) *HttpServer {
 func (h *HttpServer) StartServer(address string) {
 	h.initRoutes()
 	log.Printf("Starting server at %s", address)
-	http.ListenAndServe(address, h.router)
+
+	http.ListenAndServe(address, handlers.LoggingHandler(os.Stdout, h.router))
 }
 
 func (h *HttpServer) initRoutes() {
