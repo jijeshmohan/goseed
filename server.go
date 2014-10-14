@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	m "github.com/jijeshmohan/goseed/middleware"
+
 	"github.com/jijeshmohan/goseed/routes"
 )
 
@@ -21,15 +21,14 @@ func NewHttpServer(uiDir string) *HttpServer {
 }
 
 func (h *HttpServer) StartServer(address string) {
-	h.initRoutes()
+	h.setupRoutes()
 	log.Printf("Starting server at %s", address)
-
-	http.ListenAndServe(address, handlers.LoggingHandler(os.Stdout, h.router))
+	if err := http.ListenAndServe(address, handlers.LoggingHandler(os.Stdout, h.router)); err != nil {
+		log.Fatalln(err)
+	}
 }
 
-func (h *HttpServer) initRoutes() {
-	for _, r := range routes.Routes {
-		h.router.Handle(r.Path, m.JsonHandler{r.F}).Methods(r.Method)
-	}
+func (h *HttpServer) setupRoutes() {
+	routes.InitRoutes(h.router)
 	h.router.PathPrefix("/").Handler(http.FileServer(http.Dir(h.uiDir)))
 }
