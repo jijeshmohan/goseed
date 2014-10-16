@@ -8,7 +8,7 @@ import (
 	m "github.com/jijeshmohan/goseed/middleware"
 )
 
-type HttpHandleFunc func(http.ResponseWriter, *http.Request) interface{}
+type HttpHandleFunc func(http.ResponseWriter, *http.Request) (interface{}, error)
 
 type Route struct {
 	Path   string
@@ -18,6 +18,7 @@ type Route struct {
 
 var routes = []Route{
 	{"/users", c.ListUser, "GET"},
+	{"/users", c.CreateUser, "POST"},
 }
 
 func InitRoutes(router *mux.Router) {

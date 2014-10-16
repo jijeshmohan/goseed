@@ -2,12 +2,19 @@ package middleware
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
-func JsonHandle(handle func(http.ResponseWriter, *http.Request) interface{}) http.Handler {
+func JsonHandle(handle func(http.ResponseWriter, *http.Request) (interface{}, error)) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		data := handle(w, r)
+		data, err := handle(w, r)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprintln(err)))
+			return
+		}
 		marshal(data, w)
 	})
 }
