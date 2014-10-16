@@ -7,15 +7,15 @@ import (
 	"github.com/jijeshmohan/goseed/model"
 )
 
-func ListUser(rw http.ResponseWriter, r *http.Request) (interface{}, error) {
+func ListUser(rw http.ResponseWriter, r *http.Request) {
 	users := model.GetAllUsers()
-	return users, nil
+	renderJson(rw, users, nil)
 }
 
-func CreateUser(rw http.ResponseWriter, r *http.Request) (interface{}, error) {
+func CreateUser(rw http.ResponseWriter, r *http.Request) {
 	userJson := r.FormValue("user")
 	var user model.User
 	json.Unmarshal([]byte(userJson), &user)
 	err := model.CreateNewUser(&user)
-	return user, err
+	renderJson(rw, user, err)
 }

@@ -5,14 +5,13 @@ import (
 
 	"github.com/gorilla/mux"
 	c "github.com/jijeshmohan/goseed/controller"
-	m "github.com/jijeshmohan/goseed/middleware"
 )
 
-type HttpHandleFunc func(http.ResponseWriter, *http.Request) (interface{}, error)
+// type HttpHandleFunc func(http.ResponseWriter, *http.Request) (interface{}, error)
 
 type Route struct {
 	Path   string
-	F      HttpHandleFunc
+	F      http.HandlerFunc
 	Method string
 }
 
@@ -23,6 +22,6 @@ var routes = []Route{
 
 func InitRoutes(router *mux.Router) {
 	for _, r := range routes {
-		router.Handle(r.Path, m.JsonHandle(r.F)).Methods(r.Method)
+		router.Handle(r.Path, http.HandlerFunc(r.F)).Methods(r.Method)
 	}
 }

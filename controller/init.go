@@ -1,4 +1,4 @@
-package middleware
+package controller
 
 import (
 	"encoding/json"
@@ -6,17 +6,14 @@ import (
 	"net/http"
 )
 
-func JsonHandle(handle func(http.ResponseWriter, *http.Request) (interface{}, error)) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		data, err := handle(w, r)
-		if err != nil {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(fmt.Sprintln(err)))
-			return
-		}
-		marshal(data, w)
-	})
+func renderJson(w http.ResponseWriter, data interface{}, err error) {
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintln(err)))
+		return
+	}
+	marshal(data, w)
 }
 
 func marshal(item interface{}, w http.ResponseWriter) {
