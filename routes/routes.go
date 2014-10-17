@@ -7,8 +7,6 @@ import (
 	c "github.com/jijeshmohan/goseed/controller"
 )
 
-// type HttpHandleFunc func(http.ResponseWriter, *http.Request) (interface{}, error)
-
 type Route struct {
 	Path   string
 	F      http.HandlerFunc

@@ -19,9 +19,13 @@ var (
 func InitDb() (err error) {
 	// db, err := gorm.Open("postgres", "user=gorm dbname=gorm sslmode=disable")
 	// db, err := gorm.Open("mysql", "gorm:gorm@/gorm?charset=utf8&parseTime=True")
+	return InitDbWithName("./gorm.db")
+}
+
+func InitDbWithName(dbName string) (err error) {
 	once.Do(func() {
 		log.Println("Initialize database")
-		db, err = gorm.Open("sqlite3", "./gorm.db")
+		db, err = gorm.Open("sqlite3", dbName)
 		db.AutoMigrate(User{})
 	})
 	return
