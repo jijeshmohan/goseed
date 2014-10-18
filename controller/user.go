@@ -13,9 +13,11 @@ func ListUser(rw http.ResponseWriter, r *http.Request) {
 }
 
 func CreateUser(rw http.ResponseWriter, r *http.Request) {
-	userJson := r.FormValue("user")
+	decoder := json.NewDecoder(r.Body)
 	var user model.User
-	json.Unmarshal([]byte(userJson), &user)
+	if err := decoder.Decode(&user); err != nil {
+		renderJson(rw, nil, err)
+	}
 	err := model.CreateNewUser(&user)
 	renderJson(rw, user, err)
 }
