@@ -12,7 +12,7 @@ angular.module('uiApp')
     $scope.submit = function () {
       var user = new User($scope.user);
       user.$save(function(u, putResponseHeaders) {
-        $rootScope.msg = 'User '+u.Name+' created!';
+        $rootScope.msg = 'User '+u.name+' created!';
         $location.path('/users');
       },function(res){
         $scope.alert={type:'alert-danger',msg:"Unable to save contact"};

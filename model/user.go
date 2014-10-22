@@ -6,9 +6,9 @@ import (
 )
 
 type User struct {
-	Id    int64
-	Name  string `sql:"not null;unique;size:255"`
-	Email string
+	Id    int64  `json:"id"`
+	Name  string `json:"name" sql:"not null;unique;size:255"`
+	Email string `json:"email"`
 }
 
 func GetAllUsers() (users []User) {

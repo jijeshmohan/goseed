@@ -11,19 +11,11 @@ angular.module('uiApp')
 .controller('UserCtrl', function ($scope,User,$http,$rootScope) {
   $scope.error= $rootScope.msg;
   $rootScope.msg=null;
-  $scope.addUser = function () {
-    var user = new User($scope.user);
-    user.$save(function(u, putResponseHeaders) {
-      $scope.users.push(u);
-      $scope.user.Name = '';
-      $scope.user.Email = '';	
-    });
-  };
 
   $scope.removeUser = function (id) {
     $scope.users.forEach(function(user, index) {
-      if (id === user.Id) {
-        user.$delete({id: user.Id},function(){
+      if (id === user.id) {
+        user.$delete({id: user.id},function(){
           $scope.users.splice(index, 1); 
         });
       }
