@@ -16,6 +16,7 @@ type Route struct {
 var routes = []Route{
 	{"/users", c.ListUser, "GET"},
 	{"/users", c.CreateUser, "POST"},
+	{"/users/{id:[0-9]+}", c.DeleteUser, "DELETE"},
 }
 
 func InitRoutes(router *mux.Router) {

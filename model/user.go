@@ -17,6 +17,20 @@ func GetAllUsers() (users []User) {
 	return
 }
 
+func GetUser(id int64) *User {
+	var user User
+	err := db.Find(&user, id).Error
+	if err != nil {
+		return nil
+	} else {
+		return &user
+	}
+}
+
+func DeleteUser(user *User) {
+	db.Delete(user)
+}
+
 func CreateNewUser(user *User) error {
 	if err := user.IsValid(); err != nil {
 		return err
