@@ -11,7 +11,6 @@ angular.module('uiApp')
 .controller('UserCtrl', function ($scope,User,$http,$rootScope) {
   $scope.error= $rootScope.msg;
   $rootScope.msg=null;
-
   $scope.removeUser = function (id) {
     $scope.users.forEach(function(user, index) {
       if (id === user.id) {

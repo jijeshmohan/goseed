@@ -11,7 +11,7 @@ angular.module('uiApp')
   .controller('UsercreateCtrl', function ($scope,User, $location, $rootScope) {
     $scope.submit = function () {
       var user = new User($scope.user);
-      user.$save(function(u, putResponseHeaders) {
+      User.save(user,function(u){
         $rootScope.msg = 'User '+u.name+' created!';
         $location.path('/users');
       },function(res){
